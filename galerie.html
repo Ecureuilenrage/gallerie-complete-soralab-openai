@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Galerie des participant·es — OpenAI Creative Lab × Paris 8." />
+  <title>OpenAI Creative Lab × Paris 8 — Galerie</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <script type="module">
+    import 'https://esm.run/@material/web/all.js';
+    import {styles as typescaleStyles} from 'https://esm.run/@material/web/typography/md-typescale-styles.js';
+    if ('adoptedStyleSheets' in Document.prototype) {
+      document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    }
+  </script>
+  <script type="module" src="./assets/site.js"></script>
+
+  <!-- Galerie « Générique » (build React/Vite embarqué) -->
+  <link rel="stylesheet" href="./galerie-app/galerie.css" />
+  <script type="module" src="./galerie-app/galerie.js"></script>
+  <style>
+    /* La galerie s'affiche en pleine largeur, fond sombre, sous l'en-tête. */
+    .gallery-embed { width: 100%; background: #060607; }
+    .gallery-embed #gallery-root { min-height: 100vh; }
+
+    /* --- Fusion de l'en-tête et du pied de page dans le noir de la galerie ---
+       Sur la page Galerie uniquement (body[data-page="galerie"]) : on enlève la
+       bande crème en haut et en bas, on prend le fond sombre de la galerie, et on
+       inverse les couleurs des boutons (fond sombre, survol grisé clair, lettres
+       couleur crème). Les autres pages du site restent inchangées. */
+    body[data-page="galerie"] { background: #060607; }
+    /* Voiles décoratifs (texture/vignette crème) neutralisés sur fond noir. */
+    body[data-page="galerie"]::before,
+    body[data-page="galerie"]::after { display: none; }
+
+    /* En-tête : plus de bande, fond noir, sans filet ni flou crème. */
+    body[data-page="galerie"] .site-header {
+      background: #060607;
+      border-bottom-color: transparent;
+      backdrop-filter: none;
+    }
+    /* Pied de page : idem, fondu dans le noir. */
+    body[data-page="galerie"] .site-footer {
+      background: #060607;
+      border-top-color: transparent;
+    }
+
+    /* Marque + texte du pied : couleur crème. */
+    body[data-page="galerie"] .brand { color: #faf5ea; }
+    body[data-page="galerie"] .footer-inner { color: rgba(250, 245, 234, 0.62); }
+
+    /* Liens de navigation : lettres crème atténuées, survol/actif grisé clair. */
+    body[data-page="galerie"] .site-nav a { color: rgba(250, 245, 234, 0.72); }
+    body[data-page="galerie"] .site-nav a:hover,
+    body[data-page="galerie"] .site-nav a:focus-visible,
+    body[data-page="galerie"] .site-nav a[aria-current="page"] {
+      background: rgba(250, 245, 234, 0.12);
+      color: #faf5ea;
+    }
+
+    /* Sélecteur FR/EN : conteneur discret, boutons crème, actif inversé
+       (pastille crème, lettres sombres). */
+    body[data-page="galerie"] .lang-switch {
+      background: rgba(250, 245, 234, 0.06);
+      border-color: rgba(250, 245, 234, 0.22);
+    }
+    body[data-page="galerie"] .lang-switch button { color: rgba(250, 245, 234, 0.72); }
+    body[data-page="galerie"] .lang-switch button:hover {
+      background: rgba(250, 245, 234, 0.12);
+      color: #faf5ea;
+    }
+    body[data-page="galerie"] .lang-switch button[aria-pressed="true"] {
+      background: #faf5ea;
+      color: #1f1a14;
+    }
+  </style>
+</head>
+<body data-page="galerie">
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Aller au contenu</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./index.html" aria-label="Sora API Creative Lab Paris 8">
+        <span class="brand-text">Sora API Creative Lab × Paris 8</span>
+      </a>
+      <nav class="site-nav" aria-label="Navigation principale" data-i18n-aria-label="nav.aria">
+        <a href="./index.html" data-nav="home" data-i18n="nav.home">Accueil</a>
+        <a href="./galerie.html" data-nav="galerie" data-i18n="nav.gallery">Galerie</a>
+        <a href="./about.html" data-nav="about" data-i18n="nav.about">À propos</a>
+        <a href="./credits.html" data-nav="credits" data-i18n="nav.credits">Crédits</a>
+      </nav>
+      <div class="lang-switch" aria-label="Choix de langue" data-i18n-aria-label="lang.aria">
+        <button type="button" data-lang="fr">FR</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- Montage de la galerie React. Le composant gère lui-même le fond sombre,
+         le défilement par pas et la lightbox. Données = CSV Google Sheet (live). -->
+    <div class="gallery-embed">
+      <!-- data-home-href : cible du bouton « Retour » (haut-gauche) de la galerie. -->
+      <div id="gallery-root" data-home-href="./index.html"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="section-shell footer-inner">
+      <span>Sora API Creative Lab × Paris 8</span>
+      <span data-i18n="footer.note">Prototype bilingue</span>
+      <span id="year"></span>
+    </div>
+  </footer>
+</body>
+</html>

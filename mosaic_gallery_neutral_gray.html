@@ -1,0 +1,976 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project Mosaic Gallery</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #eeeeed;
+      --surface: rgba(255, 255, 255, 0.76);
+      --surface-solid: #f7f7f6;
+      --surface-raised: #ffffff;
+      --surface-soft: #e4e4e2;
+      --text: #202020;
+      --muted: #666666;
+      --muted-2: #8a8a8a;
+      --line: rgba(32, 32, 32, 0.13);
+      --line-strong: rgba(32, 32, 32, 0.24);
+      --shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+      --shadow-strong: 0 28px 76px rgba(0, 0, 0, 0.22);
+      --radius: 22px;
+      --focus: #3c3c3c;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.82), transparent 32rem),
+        radial-gradient(circle at top right, rgba(0, 0, 0, 0.045), transparent 30rem),
+        linear-gradient(135deg, #f8f8f7 0%, #eeeeed 50%, #dcdcd9 100%);
+    }
+
+    a { color: inherit; }
+
+    code {
+      padding: 0.06em 0.34em;
+      border: 1px solid var(--line);
+      border-radius: 0.45em;
+      background: rgba(255, 255, 255, 0.62);
+      color: var(--text);
+    }
+
+    .page {
+      width: min(1480px, calc(100% - 36px));
+      margin: 0 auto;
+      padding: 34px 0 64px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr minmax(260px, 420px);
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 740;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 920px;
+      font-size: clamp(2.25rem, 6vw, 5.4rem);
+      line-height: 0.92;
+      letter-spacing: -0.07em;
+    }
+
+    .intro {
+      max-width: 860px;
+      margin: 16px 0 0;
+      color: var(--muted);
+      line-height: 1.48;
+    }
+
+    .controls {
+      display: grid;
+      gap: 10px;
+      justify-items: end;
+    }
+
+    .search {
+      position: relative;
+      width: min(100%, 360px);
+    }
+
+    .search input {
+      width: 100%;
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 16px 0 42px;
+      color: var(--text);
+      background: var(--surface-raised);
+      box-shadow: var(--shadow);
+      font: inherit;
+      outline: none;
+    }
+
+    .search input::placeholder { color: var(--muted-2); }
+
+    .search input:focus-visible,
+    .dataset-link:focus-visible,
+    .resource:focus-visible,
+    .button:focus-visible,
+    .modal-close:focus-visible,
+    textarea:focus-visible {
+      outline: 3px solid rgba(60, 60, 60, 0.22);
+      outline-offset: 3px;
+    }
+
+    .search svg {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .status {
+      min-height: 1.5em;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: right;
+    }
+
+    .dataset-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: fit-content;
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--text);
+      background: var(--surface-raised);
+      text-decoration: none;
+      font-weight: 680;
+      font-size: 0.92rem;
+      box-shadow: var(--shadow);
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+
+    .dataset-link:hover {
+      transform: translateY(-1px);
+      border-color: var(--line-strong);
+      background: #fbfbfb;
+    }
+
+    .dataset-link svg {
+      width: 17px;
+      height: 17px;
+      stroke-width: 2.1;
+      color: var(--muted);
+    }
+
+    .notice {
+      display: none;
+      margin: 0 0 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px;
+      color: var(--muted);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .notice.show { display: block; }
+    .notice strong { color: var(--text); }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      margin: 12px 0 10px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      color: var(--text);
+      background: var(--surface-raised);
+      font: 0.9rem/1.45 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      outline: none;
+    }
+
+    .fallback-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .button,
+    .file-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--text);
+      background: var(--surface-raised);
+      cursor: pointer;
+      font: inherit;
+      text-decoration: none;
+    }
+
+    .button:hover,
+    .file-label:hover { background: #fbfbfb; border-color: var(--line-strong); }
+    input[type="file"] { display: none; }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 14px;
+    }
+
+    .tile {
+      position: relative;
+      min-width: 0;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface-soft);
+      box-shadow: var(--shadow);
+      isolation: isolate;
+      transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+    }
+
+    .tile:hover {
+      transform: translateY(-3px);
+      border-color: var(--line-strong);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .tile.is-hidden { display: none; }
+
+    .tile img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      filter: saturate(0.82) contrast(1.02);
+      transform: scale(1.01);
+      transition: transform 420ms ease, filter 420ms ease;
+    }
+
+    .tile:hover img {
+      transform: scale(1.055);
+      filter: saturate(0.92) contrast(1.05);
+    }
+
+    .tile::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        radial-gradient(circle at 35% 18%, rgba(255, 255, 255, 0.16), transparent 36%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.18) 42%, rgba(0, 0, 0, 0.82) 100%);
+      pointer-events: none;
+    }
+
+    .tile-content {
+      position: absolute;
+      inset: auto 0 0 0;
+      z-index: 2;
+      padding: 70px 15px 15px;
+      color: #f5f5f5;
+      text-shadow: 0 1px 18px rgba(0, 0, 0, 0.64);
+    }
+
+    .tile-title {
+      margin: 0 0 12px;
+      font-size: clamp(1.02rem, 1.15vw, 1.32rem);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      overflow-wrap: anywhere;
+    }
+
+    .resources {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .resource {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(255, 255, 255, 0.56);
+      border-radius: 999px;
+      color: #252525;
+      background: rgba(245, 245, 244, 0.86);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
+      transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
+    }
+
+    .resource:hover {
+      transform: translateY(-1px) scale(1.05);
+      border-color: rgba(255, 255, 255, 0.92);
+      background: #ffffff;
+    }
+
+    .resource svg {
+      width: 18px;
+      height: 18px;
+      stroke-width: 2.2;
+    }
+
+    .text-icon {
+      font-size: 0.66rem;
+      font-weight: 860;
+      letter-spacing: -0.03em;
+    }
+
+    .empty-state {
+      display: none;
+      margin-top: 14px;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      padding: 40px 24px;
+      text-align: center;
+      color: var(--muted);
+      background: var(--surface);
+    }
+
+    .empty-state.show { display: block; }
+
+    .empty-state strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text);
+      font-size: 1.08rem;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 22px;
+      background: rgba(0, 0, 0, 0.46);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .modal-backdrop.show { display: flex; }
+
+    .modal {
+      width: min(760px, 100%);
+      max-height: min(760px, calc(100vh - 44px));
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: var(--surface-solid);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 20px 0;
+    }
+
+    .modal-kicker {
+      margin: 0 0 4px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 740;
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: 1.45rem;
+      letter-spacing: -0.035em;
+    }
+
+    .modal-close {
+      flex: 0 0 auto;
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--text);
+      background: var(--surface-raised);
+      cursor: pointer;
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    .modal-body {
+      padding: 18px 20px 22px;
+    }
+
+    .modal-links {
+      display: grid;
+      gap: 10px;
+      margin: 0 0 12px;
+      padding: 0;
+      list-style: none;
+    }
+
+    .modal-links a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      color: var(--text);
+      background: var(--surface-raised);
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+
+    .modal-links a:hover { border-color: var(--line-strong); }
+    .modal-links small { color: var(--muted); }
+
+    .modal-text {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      color: rgba(32, 32, 32, 0.86);
+      background: var(--surface-raised);
+      line-height: 1.55;
+    }
+
+    @media (max-width: 820px) {
+      .page { width: min(100% - 24px, 720px); padding-top: 24px; }
+      header { grid-template-columns: 1fr; align-items: start; }
+      .controls { justify-items: stretch; }
+      .search { width: 100%; }
+      .status { text-align: left; }
+      .dataset-link { justify-content: flex-start; }
+      .gallery { grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 12px; }
+      .tile-content { padding: 56px 12px 12px; }
+      .tile-title { font-size: 0.98rem; margin-bottom: 9px; }
+      .resource { width: 34px; height: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header>
+      <div>
+        <p class="eyebrow">Live CSV mosaic</p>
+        <h1>Project Mosaic</h1>
+        <p class="intro">Each tile uses the <code>vignette</code> image when available, falls back to a neutral generic image, and shows resource icons only for populated cells.</p>
+      </div>
+      <div class="controls">
+        <label class="search" aria-label="Search participants">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="m21 21-4.35-4.35"/><circle cx="11" cy="11" r="7"/></svg>
+          <input id="search" type="search" placeholder="Search participant…" autocomplete="off" />
+        </label>
+        <div id="status" class="status" aria-live="polite">Loading gallery…</div>
+        <a class="dataset-link" href="https://docs.google.com/spreadsheets/d/1MhOL0DxvNDGEDMp3DRyuqkl0fMtpkFAuj1entnE0Tao/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M4 9h16"/><path d="M4 15h16"/><path d="M10 9v12"/><path d="M15 9v12"/></svg>
+          <span>View dataset in Google Sheet</span>
+        </a>
+      </div>
+    </header>
+
+    <section id="notice" class="notice" aria-live="polite">
+      <strong>Live loading was blocked.</strong>
+      Paste the CSV content below or choose a local CSV export with the same columns.
+      <textarea id="csvPaste" spellcheck="false" placeholder="participant,lien,pdf,prompts,video_01,video_02,vignette&#10;…"></textarea>
+      <div class="fallback-actions">
+        <label class="file-label" for="csvFile">Choose CSV file</label>
+        <input id="csvFile" type="file" accept=".csv,text/csv" />
+        <button id="renderPasted" class="button" type="button">Render pasted CSV</button>
+      </div>
+    </section>
+
+    <section id="gallery" class="gallery" aria-label="Project gallery"></section>
+    <section id="empty" class="empty-state">
+      <strong>No matching projects</strong>
+      Try a different search term.
+    </section>
+  </main>
+
+  <div id="modalBackdrop" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <div>
+          <p id="modalKicker" class="modal-kicker">Resource</p>
+          <h2 id="modalTitle" class="modal-title">Details</h2>
+        </div>
+        <button id="modalClose" class="modal-close" type="button" aria-label="Close">×</button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2J9znISYyRj69-SBMjGL1oYQgAJkZeZi4i0yeWDr_h5mDD7FNYVNB9m62xctahL3pBk2GP5YOCyst/pub?gid=0&single=true&output=csv";
+    const GVIZ_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQ2J9znISYyRj69-SBMjGL1oYQgAJkZeZi4i0yeWDr_h5mDD7FNYVNB9m62xctahL3pBk2GP5YOCyst/gviz/tq?gid=0&tqx=out:json&headers=1";
+
+    const COLUMNS = {
+      title: "participant",
+      image: "vignette",
+      resources: [
+        { key: "lien", label: "Project link", icon: "link" },
+        { key: "pdf", label: "PDF", icon: "pdf" },
+        { key: "prompts", label: "Prompts", icon: "prompts" },
+        { key: "video_01", label: "Video 01", icon: "video" },
+        { key: "video_02", label: "Video 02", icon: "video" }
+      ]
+    };
+
+    const PLACEHOLDER = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#d9d9d7"/>
+            <stop offset="0.52" stop-color="#bcbcb9"/>
+            <stop offset="1" stop-color="#8c8c89"/>
+          </linearGradient>
+          <radialGradient id="r" cx="32%" cy="24%" r="72%">
+            <stop offset="0" stop-color="#ffffff" stop-opacity="0.36"/>
+            <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+          </radialGradient>
+          <pattern id="p" width="96" height="96" patternUnits="userSpaceOnUse" patternTransform="rotate(24)">
+            <rect width="96" height="96" fill="none"/>
+            <path d="M0 48h96" stroke="#ffffff" stroke-opacity="0.10" stroke-width="10"/>
+          </pattern>
+        </defs>
+        <rect width="1200" height="1200" fill="url(#g)"/>
+        <rect width="1200" height="1200" fill="url(#r)"/>
+        <rect width="1200" height="1200" fill="url(#p)"/>
+        <g fill="none" stroke="#ffffff" stroke-opacity="0.58" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="330" y="330" width="540" height="440" rx="42"/>
+          <path d="M390 700 545 545l120 120 70-70 80 80"/>
+          <circle cx="725" cy="455" r="52" fill="#ffffff" fill-opacity="0.26" stroke="none"/>
+        </g>
+        <text x="600" y="880" text-anchor="middle" fill="#ffffff" fill-opacity="0.76" font-family="Inter, Arial, sans-serif" font-size="58" font-weight="700">No image</text>
+      </svg>
+    `);
+
+    const ICONS = {
+      link: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l2-2a5 5 0 0 0-7.07-7.07l-1.15 1.15"/><path d="M14 11a5 5 0 0 0-7.54-.54l-2 2a5 5 0 0 0 7.07 7.07l1.15-1.15"/></svg>`,
+      pdf: `<span class="text-icon" aria-hidden="true">PDF</span>`,
+      prompts: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4Z"/><path d="M8 8h8"/><path d="M8 12h6"/></svg>`,
+      video: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><path d="M15 10 20 7v10l-5-3Z"/><rect x="3" y="6" width="12" height="12" rx="2"/></svg>`
+    };
+
+    const URL_REGEX = /https?:\/\/[^\s,;]+|www\.[^\s,;]+|mailto:[^\s,;]+|tel:[^\s,;]+/gi;
+
+    let allRows = [];
+
+    const gallery = document.getElementById("gallery");
+    const status = document.getElementById("status");
+    const notice = document.getElementById("notice");
+    const search = document.getElementById("search");
+    const empty = document.getElementById("empty");
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const modalKicker = document.getElementById("modalKicker");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalBody = document.getElementById("modalBody");
+    const modalClose = document.getElementById("modalClose");
+    const csvPaste = document.getElementById("csvPaste");
+    const csvFile = document.getElementById("csvFile");
+    const renderPasted = document.getElementById("renderPasted");
+
+    function clean(value) {
+      return String(value ?? "").replace(/\u00a0/g, " ").trim();
+    }
+
+    function hasValue(value) {
+      const normalized = clean(value).toLowerCase();
+      return normalized !== "" && !["na", "n/a", "none", "null", "undefined", "-", "—"].includes(normalized);
+    }
+
+    function normalizeKey(key) {
+      return clean(key).toLowerCase().replace(/[\s-]+/g, "_");
+    }
+
+    function normalizeRow(row) {
+      const normalized = {};
+      Object.entries(row).forEach(([key, value]) => {
+        normalized[normalizeKey(key)] = value;
+      });
+      return normalized;
+    }
+
+    function extractUrls(value) {
+      return Array.from(new Set(clean(value).match(URL_REGEX) || []));
+    }
+
+    function normalizeUrl(value) {
+      const s = clean(value);
+      if (/^www\./i.test(s)) return `https://${s}`;
+      return s;
+    }
+
+    function compactUrl(value) {
+      try {
+        const u = new URL(normalizeUrl(value));
+        const path = u.pathname.replace(/\/$/, "");
+        return `${u.hostname}${path && path !== "/" ? path : ""}`;
+      } catch {
+        return clean(value);
+      }
+    }
+
+    function googleDriveFileId(value) {
+      const text = clean(value);
+      const patterns = [
+        /drive\.google\.com\/file\/d\/([^/]+)/i,
+        /drive\.google\.com\/open\?id=([^&]+)/i,
+        /drive\.google\.com\/uc\?id=([^&]+)/i,
+        /[?&]id=([a-zA-Z0-9_-]{20,})/,
+        /^([a-zA-Z0-9_-]{25,})$/
+      ];
+      for (const pattern of patterns) {
+        const match = text.match(pattern);
+        if (match && match[1]) return decodeURIComponent(match[1]);
+      }
+      return "";
+    }
+
+    function imageUrl(value) {
+      const s = clean(value);
+      if (!hasValue(s)) return PLACEHOLDER;
+      const urls = extractUrls(s);
+      const candidate = urls[0] || s;
+      const driveId = googleDriveFileId(candidate);
+      if (driveId) return `https://drive.google.com/thumbnail?id=${encodeURIComponent(driveId)}&sz=w1200`;
+
+      const githubMatch = candidate.match(/github\.com\/(.+?)\/blob\/(.+)/i);
+      if (githubMatch) return `https://raw.githubusercontent.com/${githubMatch[1]}/${githubMatch[2]}`;
+
+      if (/dropbox\.com/i.test(candidate)) {
+        return normalizeUrl(candidate).replace(/[?&]dl=0/i, "").replace(/[?&]raw=0/i, "") + (candidate.includes("?") ? "&raw=1" : "?raw=1");
+      }
+
+      return /^(https?:\/\/|www\.)/i.test(candidate) ? normalizeUrl(candidate) : PLACEHOLDER;
+    }
+
+    function createResource(row, item, title) {
+      const value = clean(row[item.key]);
+      const exactUrls = extractUrls(value);
+      const label = `${item.label}: ${title}`;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "resource";
+      button.title = item.label;
+      button.setAttribute("aria-label", label);
+      button.innerHTML = ICONS[item.icon] || ICONS.link;
+      button.addEventListener("click", () => {
+        if (exactUrls.length === 1 && value === exactUrls[0]) {
+          window.open(normalizeUrl(exactUrls[0]), "_blank", "noopener,noreferrer");
+        } else {
+          openModal(item.label, title, value, exactUrls);
+        }
+      });
+      return button;
+    }
+
+    function tile(row, index) {
+      const normalized = normalizeRow(row);
+      const title = clean(normalized[COLUMNS.title]) || `Project ${index + 1}`;
+      const article = document.createElement("article");
+      article.className = "tile";
+      article.dataset.title = title.toLowerCase();
+
+      const img = document.createElement("img");
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.referrerPolicy = "no-referrer";
+      img.alt = title;
+      img.src = imageUrl(normalized[COLUMNS.image]);
+      img.onerror = () => {
+        img.onerror = null;
+        img.src = PLACEHOLDER;
+      };
+      article.appendChild(img);
+
+      const content = document.createElement("div");
+      content.className = "tile-content";
+
+      const heading = document.createElement("h2");
+      heading.className = "tile-title";
+      heading.textContent = title;
+      content.appendChild(heading);
+
+      const resources = document.createElement("div");
+      resources.className = "resources";
+      resources.setAttribute("aria-label", `Available resources for ${title}`);
+      COLUMNS.resources.forEach(item => {
+        if (hasValue(normalized[item.key])) resources.appendChild(createResource(normalized, item, title));
+      });
+      content.appendChild(resources);
+      article.appendChild(content);
+
+      return article;
+    }
+
+    function coerceRows(rows) {
+      const normalized = rows.map(normalizeRow).filter(row => Object.values(row).some(hasValue));
+      if (!normalized.length) return [];
+
+      const expected = [COLUMNS.title, COLUMNS.image, ...COLUMNS.resources.map(item => item.key)];
+      const alreadyHasExpectedHeaders = expected.some(key => Object.prototype.hasOwnProperty.call(normalized[0], key));
+      if (alreadyHasExpectedHeaders) return normalized;
+
+      const firstRowValues = Object.values(normalized[0]).map(normalizeKey);
+      const looksLikeHeaderRow = expected.filter(key => firstRowValues.includes(key)).length >= 3;
+      if (!looksLikeHeaderRow) return normalized;
+
+      const keysInOrder = Object.keys(normalized[0]);
+      const headers = keysInOrder.map(key => normalizeKey(normalized[0][key]));
+      return normalized.slice(1).map(row => {
+        const remapped = {};
+        headers.forEach((header, i) => {
+          if (header) remapped[header] = row[keysInOrder[i]] || "";
+        });
+        return remapped;
+      }).filter(row => Object.values(row).some(hasValue));
+    }
+
+    function render(rows) {
+      allRows = coerceRows(rows);
+      gallery.replaceChildren(...allRows.map(tile));
+      notice.classList.remove("show");
+      updateFilter();
+    }
+
+    function updateFilter() {
+      const query = clean(search.value).toLowerCase();
+      let visible = 0;
+      Array.from(gallery.children).forEach(card => {
+        const match = !query || card.dataset.title.includes(query);
+        card.classList.toggle("is-hidden", !match);
+        if (match) visible += 1;
+      });
+      const total = gallery.children.length;
+      status.textContent = total ? `${visible} of ${total} projects shown` : "No projects loaded";
+      empty.classList.toggle("show", total > 0 && visible === 0);
+    }
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let field = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"') {
+          if (inQuotes && next === '"') {
+            field += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === "," && !inQuotes) {
+          row.push(field);
+          field = "";
+        } else if ((char === "\n" || char === "\r") && !inQuotes) {
+          if (char === "\r" && next === "\n") i++;
+          row.push(field);
+          rows.push(row);
+          row = [];
+          field = "";
+        } else {
+          field += char;
+        }
+      }
+      row.push(field);
+      rows.push(row);
+
+      while (rows.length && rows[rows.length - 1].every(cell => clean(cell) === "")) rows.pop();
+      if (!rows.length) return [];
+
+      const headers = rows.shift().map(normalizeKey);
+      return rows
+        .filter(values => values.some(hasValue))
+        .map(values => {
+          const obj = {};
+          headers.forEach((header, i) => { obj[header] = values[i] || ""; });
+          return obj;
+        });
+    }
+
+    function rowsFromGviz(response) {
+      if (!response || !response.table || !Array.isArray(response.table.cols)) return [];
+      const headers = response.table.cols.map(col => normalizeKey(col.label || col.id || ""));
+      return (response.table.rows || []).map(row => {
+        const obj = {};
+        headers.forEach((header, i) => {
+          const cell = row.c && row.c[i];
+          obj[header] = cell ? clean(cell.f != null ? cell.f : cell.v) : "";
+        });
+        return obj;
+      }).filter(row => Object.values(row).some(hasValue));
+    }
+
+    async function loadViaFetch() {
+      const response = await fetch(CSV_URL, { cache: "no-store" });
+      if (!response.ok) throw new Error(`CSV request failed: ${response.status}`);
+      const text = await response.text();
+      const rows = parseCSV(text);
+      if (!rows.length) throw new Error("CSV was empty");
+      render(rows);
+    }
+
+    function loadViaGviz() {
+      return new Promise((resolve, reject) => {
+        const previousGoogle = window.google;
+        const callbackName = `__projectMosaic_${Date.now()}_${Math.floor(Math.random() * 100000)}`;
+        const script = document.createElement("script");
+        let settled = false;
+
+        function cleanup() {
+          settled = true;
+          script.remove();
+          delete window[callbackName];
+          if (previousGoogle === undefined) delete window.google;
+          else window.google = previousGoogle;
+        }
+
+        const timer = window.setTimeout(() => {
+          if (settled) return;
+          cleanup();
+          reject(new Error("Google Visualization loading timed out"));
+        }, 10000);
+
+        window[callbackName] = response => {
+          if (settled) return;
+          window.clearTimeout(timer);
+          const rows = rowsFromGviz(response);
+          cleanup();
+          if (!rows.length) {
+            reject(new Error("No rows returned by Google Visualization"));
+            return;
+          }
+          render(rows);
+          resolve(rows);
+        };
+
+        window.google = window.google || {};
+        window.google.visualization = window.google.visualization || {};
+        window.google.visualization.Query = window.google.visualization.Query || {};
+        window.google.visualization.Query.setResponse = window[callbackName];
+
+        script.async = true;
+        script.onerror = () => {
+          if (settled) return;
+          window.clearTimeout(timer);
+          cleanup();
+          reject(new Error("Google Visualization script could not be loaded"));
+        };
+        script.src = GVIZ_URL + `&cachebust=${Date.now()}`;
+        document.head.appendChild(script);
+      });
+    }
+
+    async function loadData() {
+      try {
+        await loadViaGviz();
+      } catch (gvizError) {
+        try {
+          await loadViaFetch();
+        } catch (fetchError) {
+          status.textContent = "Paste CSV to render locally";
+          notice.classList.add("show");
+          console.warn("Live gallery loading failed", { gvizError, fetchError });
+        }
+      }
+    }
+
+    function openModal(label, title, value, links) {
+      modalKicker.textContent = label;
+      modalTitle.textContent = title;
+      modalBody.innerHTML = "";
+
+      if (links.length) {
+        const list = document.createElement("ul");
+        list.className = "modal-links";
+        links.forEach((link, index) => {
+          const item = document.createElement("li");
+          const anchor = document.createElement("a");
+          anchor.href = normalizeUrl(link);
+          anchor.target = "_blank";
+          anchor.rel = "noopener noreferrer";
+          anchor.textContent = links.length > 1 ? `${label} ${index + 1}` : label;
+          const small = document.createElement("small");
+          small.textContent = compactUrl(link);
+          anchor.appendChild(small);
+          item.appendChild(anchor);
+          list.appendChild(item);
+        });
+        modalBody.appendChild(list);
+      }
+
+      const remaining = clean(value.replace(URL_REGEX, ""));
+      if (remaining || !links.length) {
+        const text = document.createElement("div");
+        text.className = "modal-text";
+        text.textContent = remaining || value;
+        modalBody.appendChild(text);
+      }
+
+      modalBackdrop.classList.add("show");
+      modalClose.focus();
+    }
+
+    function closeModal() {
+      modalBackdrop.classList.remove("show");
+    }
+
+    search.addEventListener("input", updateFilter);
+    renderPasted.addEventListener("click", () => {
+      const rows = parseCSV(csvPaste.value);
+      if (rows.length) render(rows);
+      else status.textContent = "No rows found in pasted CSV";
+    });
+    csvFile.addEventListener("change", async event => {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const text = await file.text();
+      csvPaste.value = text;
+      const rows = parseCSV(text);
+      if (rows.length) render(rows);
+      else status.textContent = "No rows found in selected CSV";
+    });
+    modalClose.addEventListener("click", closeModal);
+    modalBackdrop.addEventListener("click", event => {
+      if (event.target === modalBackdrop) closeModal();
+    });
+    window.addEventListener("keydown", event => {
+      if (event.key === "Escape") closeModal();
+    });
+
+    loadData();
+  </script>
+</body>
+</html>

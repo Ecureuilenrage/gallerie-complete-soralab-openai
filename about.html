@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="À propos de l’atelier Sora API Creative Lab avec les étudiant·es en Humanités numériques de Paris 8." />
+  <title>Sora API Creative Lab × Paris 8 — À propos</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <script type="module">
+    import 'https://esm.run/@material/web/all.js';
+    import {styles as typescaleStyles} from 'https://esm.run/@material/web/typography/md-typescale-styles.js';
+    if ('adoptedStyleSheets' in Document.prototype) {
+      document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    }
+  </script>
+  <script type="module" src="./assets/site.js"></script>
+</head>
+<body data-page="about">
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Aller au contenu</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./index.html" aria-label="Sora API Creative Lab Paris 8">
+        <span class="brand-text">Sora API Creative Lab × Paris 8</span>
+      </a>
+      <nav class="site-nav" aria-label="Navigation principale" data-i18n-aria-label="nav.aria">
+        <a href="./index.html" data-nav="home" data-i18n="nav.home">Accueil</a>
+        <a href="./galerie.html" data-nav="galerie" data-i18n="nav.gallery">Galerie</a>
+        <a href="./about.html" data-nav="about" data-i18n="nav.about">À propos</a>
+        <a href="./credits.html" data-nav="credits" data-i18n="nav.credits">Crédits</a>
+      </nav>
+      <div class="lang-switch" aria-label="Choix de langue" data-i18n-aria-label="lang.aria">
+        <button type="button" data-lang="fr">FR</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero section-shell page-hero about-page" aria-labelledby="about-title">
+      <div class="page-heading">
+        <p class="eyebrow" data-i18n="about.eyebrow">Atelier · Sora API Creative Lab</p>
+        <h1 id="about-title" data-i18n="about.title">Faire de la vidéo générative comme on écrit une recette.</h1>
+        <p class="lede" data-i18n="about.lede">À Paris 8, des étudiant·es en Humanités numériques explorent Sora comme matériau de recherche-création : générer, remixer, programmer des images en mouvement — puis documenter ce qui se passe entre l’idée, le prompt, le montage et le résultat.</p>
+      </div>
+
+      <div class="about-intro-grid" aria-label="Présentation de l’atelier" data-i18n-aria-label="about.gridAria">
+        <article class="text-panel about-lead-panel">
+          <p class="panel-label" data-i18n="about.manifestKicker">Position</p>
+          <h2 data-i18n="about.manifestTitle">Un laboratoire, pas un bouton magique.</h2>
+          <p data-i18n="about.manifestBody1">L’atelier pose Sora comme un médium de vidéo générative : un outil pour fabriquer de la matière, produire des variations, tester des systèmes et questionner l’auteur·ice au travail.</p>
+          <p data-i18n="about.manifestBody2">L’enjeu n’est pas d’obtenir un clip spectaculaire en un clic, mais de formuler une hypothèse visuelle, faire des essais, comparer les sorties, noter les accidents et transformer le processus en connaissance partageable.</p>
+        </article>
+
+        <aside class="lab-facts" aria-label="Repères" data-i18n-aria-label="about.factsAria">
+          <div class="fact-card">
+            <span class="fact-number" data-i18n="about.factSessionsNumber">3 + 1</span>
+            <span class="fact-label" data-i18n="about.factSessionsLabel">séances d’atelier et une présentation de projets</span>
+          </div>
+          <div class="fact-card">
+            <span class="fact-number" data-i18n="about.factMethodNumber">3</span>
+            <span class="fact-label" data-i18n="about.factMethodLabel">gestes de départ : générer, itérer, remixer</span>
+          </div>
+          <div class="fact-card">
+            <span class="fact-number" data-i18n="about.factOutputNumber">PDF / MP4</span>
+            <span class="fact-label" data-i18n="about.factOutputLabel">livrables, recettes, coulisses et documentation</span>
+          </div>
+        </aside>
+      </div>
+
+      <section class="about-block" aria-labelledby="method-title">
+        <div class="section-heading">
+          <p class="panel-label" data-i18n="about.methodKicker">Méthode</p>
+          <h2 id="method-title" data-i18n="about.methodTitle">La recette de l’atelier</h2>
+          <p data-i18n="about.methodLede">Une recette, ici, n’est pas une formule magique. C’est une trace lisible d’un protocole : ce que l’on a demandé, ce que le modèle a fait, ce que l’on a gardé, modifié ou abandonné.</p>
+        </div>
+        <div class="method-grid" aria-label="Étapes de méthode" data-i18n-aria-label="about.methodAria">
+          <article class="method-card">
+            <span class="method-index">01</span>
+            <h3 data-i18n="about.methodGenerateTitle">Générer</h3>
+            <p data-i18n="about.methodGenerateBody">Décrire une scène, produire des clips, observer les surprises.</p>
+          </article>
+          <article class="method-card">
+            <span class="method-index">02</span>
+            <h3 data-i18n="about.methodIterateTitle">Itérer</h3>
+            <p data-i18n="about.methodIterateBody">Changer la caméra, la lumière, le style, le rythme, puis comparer.</p>
+          </article>
+          <article class="method-card">
+            <span class="method-index">03</span>
+            <h3 data-i18n="about.methodRemixTitle">Remixer</h3>
+            <p data-i18n="about.methodRemixBody">Reprendre un fragment prometteur et modifier une seule variable.</p>
+          </article>
+          <article class="method-card">
+            <span class="method-index">04</span>
+            <h3 data-i18n="about.methodDocumentTitle">Documenter</h3>
+            <p data-i18n="about.methodDocumentBody">Conserver prompts, captures, versions, ratés et décisions de montage.</p>
+          </article>
+          <article class="method-card">
+            <span class="method-index">05</span>
+            <h3 data-i18n="about.methodShareTitle">Présenter</h3>
+            <p data-i18n="about.methodShareBody">Partager un résultat, mais aussi les coulisses : recette, écran, récit critique.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="about-block" aria-labelledby="sessions-title">
+        <div class="section-heading">
+          <p class="panel-label" data-i18n="about.sessionsKicker">Déroulé</p>
+          <h2 id="sessions-title" data-i18n="about.sessionsTitle">Trois séances, puis la mise en scène des projets</h2>
+          <p data-i18n="about.sessionsLede">Le parcours avance de l’accès aux outils vers la présentation critique : comprendre le terrain, expérimenter, puis partager les problèmes rencontrés autant que les images produites.</p>
+        </div>
+
+        <ol class="session-timeline">
+          <li class="session-card">
+            <div class="session-marker" data-i18n="about.session1Label">Séance 1</div>
+            <div class="session-content">
+              <h3 data-i18n="about.session1Title">Cadre, accès, premiers protocoles</h3>
+              <p data-i18n="about.session1Body">On pose le cadre du Creative Lab : Sora comme médium, l’API comme terrain d’expérimentation, et la documentation comme condition du projet. Les étudiant·es commencent à générer, itérer et remixer.</p>
+              <p class="session-tags" data-i18n="about.session1Tags">Sora API · playground · prompts · carnet de bord</p>
+              <div class="session-media-grid session-media-grid-two" aria-label="Images de la séance 1" data-i18n-aria-label="about.session1PhotosAria">
+                <figure class="session-figure" data-photo-name="IMG_6226.jpeg">
+                  <img src="./assets/photos/IMG_6226.jpeg" width="640" height="546" loading="lazy" alt="Séance 1 — atelier Sora API Creative Lab, IMG_6226" data-i18n-alt="about.session1Photo1Alt" />
+                  <figcaption><span data-i18n="about.session1Photo1Caption">Séance 1 · mise en route de l’atelier</span><small>IMG_6226</small></figcaption>
+                </figure>
+                <figure class="session-figure" data-photo-name="IMG_6225.jpeg">
+                  <img src="./assets/photos/IMG_6225.jpeg" width="640" height="546" loading="lazy" alt="Séance 1 — atelier Sora API Creative Lab, IMG_6225" data-i18n-alt="about.session1Photo2Alt" />
+                  <figcaption><span data-i18n="about.session1Photo2Caption">Séance 1 · premiers repères collectifs</span><small>IMG_6225</small></figcaption>
+                </figure>
+              </div>
+            </div>
+          </li>
+          <li class="session-card">
+            <div class="session-marker" data-i18n="about.session2Label">Séance 2</div>
+            <div class="session-content">
+              <h3 data-i18n="about.session2Title">Outils, storyboard et premiers essais</h3>
+              <p data-i18n="about.session2Body">Démonstration de Sora 2, discussion des formats, des crédits, du storyboard, des personnages, de l’audio et des workflows possibles. La séance ouvre aussi vers l’interface de commentaires vidéo développée par Léon.</p>
+              <p class="session-tags" data-i18n="about.session2Tags">Sora 2 · storyboard · audio · interface · show-and-tell</p>
+            </div>
+          </li>
+          <li class="session-card">
+            <div class="session-marker" data-i18n="about.session3Label">Séance 3</div>
+            <div class="session-content">
+              <h3 data-i18n="about.session3Title">Show & tell, contraintes et stratégies</h3>
+              <p data-i18n="about.session3Body">Les participant·es présentent leurs expérimentations : image-to-video, références cinématographiques, adaptation littéraire, VFX, tarot, styles statiques ou scènes atmosphériques. Les limites deviennent des indices de méthode.</p>
+              <p class="session-tags" data-i18n="about.session3Tags">contraintes · styles · VFX · continuité · décomposition</p>
+            </div>
+          </li>
+          <li class="session-card">
+            <div class="session-marker" data-i18n="about.session4Label">Séance 4</div>
+            <div class="session-content">
+              <h3 data-i18n="about.session4Title">Présentation des projets</h3>
+              <p data-i18n="about.session4Body">La quatrième séance est consacrée aux présentations finales : un moment pour montrer les projets, discuter les recettes, comparer les essais et mettre en commun ce qui a été appris.</p>
+              <p class="session-tags" data-i18n="about.session4Tags">projets · discussion collective · documentation</p>
+              <div class="session-media-grid session-media-grid-five" aria-label="Images de la séance 4" data-i18n-aria-label="about.session4PhotosAria">
+                <figure class="session-figure" data-photo-name="IMG_7014.jpeg">
+                  <img src="./assets/photos/IMG_7014.jpeg" width="640" height="546" loading="lazy" alt="Séance 4 — présentation des projets, IMG_7014" data-i18n-alt="about.session4Photo1Alt" />
+                  <figcaption><span data-i18n="about.session4Photo1Caption">Séance 4 · présentation des projets</span><small>IMG_7014</small></figcaption>
+                </figure>
+                <figure class="session-figure" data-photo-name="IMG_7013.jpeg">
+                  <img src="./assets/photos/IMG_7013.jpeg" width="640" height="546" loading="lazy" alt="Séance 4 — présentation des projets, IMG_7013" data-i18n-alt="about.session4Photo2Alt" />
+                  <figcaption><span data-i18n="about.session4Photo2Caption">Séance 4 · retours et discussion</span><small>IMG_7013</small></figcaption>
+                </figure>
+                <figure class="session-figure" data-photo-name="IMG_7011.jpeg">
+                  <img src="./assets/photos/IMG_7011.jpeg" width="640" height="546" loading="lazy" alt="Séance 4 — présentation des projets, IMG_7011" data-i18n-alt="about.session4Photo3Alt" />
+                  <figcaption><span data-i18n="about.session4Photo3Caption">Séance 4 · gestes, écrans, recettes</span><small>IMG_7011</small></figcaption>
+                </figure>
+                <figure class="session-figure" data-photo-name="IMG_7010.jpeg">
+                  <img src="./assets/photos/IMG_7010.jpeg" width="640" height="546" loading="lazy" alt="Séance 4 — présentation des projets, IMG_7010" data-i18n-alt="about.session4Photo4Alt" />
+                  <figcaption><span data-i18n="about.session4Photo4Caption">Séance 4 · projets en discussion</span><small>IMG_7010</small></figcaption>
+                </figure>
+                <figure class="session-figure" data-photo-name="IMG_7009.jpeg">
+                  <img src="./assets/photos/IMG_7009.jpeg" width="640" height="546" loading="lazy" alt="Séance 4 — présentation des projets, IMG_7009" data-i18n-alt="about.session4Photo5Alt" />
+                  <figcaption><span data-i18n="about.session4Photo5Caption">Séance 4 · traces de l’atelier</span><small>IMG_7009</small></figcaption>
+                </figure>
+              </div>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="about-block about-gallery-note" aria-labelledby="gallery-note-title">
+        <article class="text-panel reflection-panel">
+          <div>
+            <p class="panel-label" data-i18n="about.galleryKicker">Galerie</p>
+            <h2 id="gallery-note-title" data-i18n="about.galleryTitle">Montrer les résultats, mais garder les recettes visibles.</h2>
+          </div>
+          <div class="reflection-copy">
+            <p data-i18n="about.galleryBody1">Les PDF et les MP4 seront les points d’entrée. Mais la galerie doit aussi rendre visible le chemin : prompts, références, bifurcations, essais non retenus, questions techniques et décisions esthétiques.</p>
+            <p data-i18n="about.galleryBody2">Elle pourra se parcourir par projet, thème, média, recette ou trajectoire — un espace où les Humanités numériques rencontrent le cinéma génératif sans perdre le sens critique.</p>
+            <div class="tag-cloud" aria-label="Mots-clés" data-i18n-aria-label="about.tagsAria">
+              <span data-i18n="about.tagCookbook">cookbook</span>
+              <span data-i18n="about.tagSora">Sora 2</span>
+              <span data-i18n="about.tagVideo">vidéo</span>
+              <span data-i18n="about.tagGenai">genAI</span>
+              <span data-i18n="about.tagParis8">Paris 8</span>
+              <span data-i18n="about.tagSaintDenis">Saint-Denis</span>
+            </div>
+            <a class="inline-link" href="./galerie.html" data-i18n="about.galleryLink">Aller vers la galerie</a>
+          </div>
+        </article>
+      </section>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="section-shell footer-inner">
+      <span>Sora API Creative Lab × Paris 8</span>
+      <span data-i18n="footer.note">Prototype bilingue</span>
+      <span id="year"></span>
+    </div>
+  </footer>
+</body>
+</html>

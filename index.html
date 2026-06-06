@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Accueil de la vitrine OpenAI Creative Lab avec les étudiant·es en Humanités numériques de Paris 8." />
+  <title>OpenAI Creative Lab × Paris 8 — Accueil</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="./assets/styles.css" />
+  <script type="module">
+    import 'https://esm.run/@material/web/all.js';
+    import {styles as typescaleStyles} from 'https://esm.run/@material/web/typography/md-typescale-styles.js';
+    if ('adoptedStyleSheets' in Document.prototype) {
+      document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    }
+  </script>
+  <script type="module" src="./assets/site.js"></script>
+</head>
+<body data-page="home">
+  <a class="skip-link" href="#main" data-i18n="a11y.skip">Aller au contenu</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="./index.html" aria-label="Sora API Creative Lab Paris 8">
+        <span class="brand-text">Sora API Creative Lab × Paris 8</span>
+      </a>
+      <nav class="site-nav" aria-label="Navigation principale" data-i18n-aria-label="nav.aria">
+        <a href="./index.html" data-nav="home" data-i18n="nav.home">Accueil</a>
+        <a href="./galerie.html" data-nav="galerie" data-i18n="nav.gallery">Galerie</a>
+        <a href="./about.html" data-nav="about" data-i18n="nav.about">À propos</a>
+        <a href="./credits.html" data-nav="credits" data-i18n="nav.credits">Crédits</a>
+      </nav>
+      <div class="lang-switch" aria-label="Choix de langue" data-i18n-aria-label="lang.aria">
+        <button type="button" data-lang="fr">FR</button>
+        <button type="button" data-lang="en">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero section-shell home-hero" aria-labelledby="home-title">
+      <p class="eyebrow" data-i18n="home.eyebrow">Humanités numériques · Paris 8 · Saint-Denis</p>
+      <h1 id="home-title" data-i18n="home.title">OpenAI Creative Lab : recettes, vidéos et IA générative.</h1>
+
+      <nav class="home-options" aria-label="Sections du site" data-i18n-aria-label="home.optionsAria">
+        <a class="option-card" href="./galerie.html">
+          <span class="option-index">01</span>
+          <span class="option-body">
+            <strong data-i18n="home.galleryTitle">Galerie</strong>
+            <span data-i18n="home.galleryCopy">Les livrables, vues et parcours de navigation.</span>
+          </span>
+          <span class="option-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="option-card" href="./about.html">
+          <span class="option-index">02</span>
+          <span class="option-body">
+            <strong data-i18n="home.aboutTitle">À propos</strong>
+            <span data-i18n="home.aboutCopy">Le cadre, les intentions et la méthode de l’atelier.</span>
+          </span>
+          <span class="option-arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="option-card" href="./credits.html">
+          <span class="option-index">03</span>
+          <span class="option-body">
+            <strong data-i18n="home.creditsTitle">Crédits</strong>
+            <span data-i18n="home.creditsCopy">Participant·es, réalisation, références et remerciements.</span>
+          </span>
+          <span class="option-arrow" aria-hidden="true">→</span>
+        </a>
+      </nav>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="section-shell footer-inner">
+      <span>Sora API Creative Lab × Paris 8</span>
+      <span data-i18n="footer.note">Prototype bilingue</span>
+      <span id="year"></span>
+    </div>
+  </footer>
+</body>
+</html>
